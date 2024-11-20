@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Management</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Additional styling for shadow and spacing */
+        .sidebar {
+            background-color: #f8f9fa;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 100vh;
+        }
+        .content-area {
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <nav class="navbar navbar-light bg-info">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img src="https://cdn.icon-icons.com/icons2/979/PNG/256/Doctor_Male_icon-icons.com_75051.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                <B>Doctor</B>
+              </a>
+                 <a class="navbar-brand ml-auto text-white" href="#">
+              </a>
+              <a href="/doctor/DoctorHome" class="btn btn-dark bn ml-auto mr-4">Home</a>
+              <form class="form-inline">
+                <input class="form-control m-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success bg-success text-white my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>   
+          <nav class="navbar navbar-light ">
+          </nav>      
+    </nav>
+    <div th:if="${msg!=null}">
+		<p style='background-color:yellow; padding:10px;' th:text="${msg}"></p>
+	</div>
+    
+    
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+            <!-- Doctor Image and Name -->
+            <div class="text-center">
+                <img src="https://cdn.icon-icons.com/icons2/979/PNG/256/Doctor_Male_icon-icons.com_75051.png" class="img-fluid rounded-circle shadow-sm mb-3" alt="Doctor Image" width="100">
+                <h4>Dr. <span style='color:red;' th:text="${session.doctor.name}"></span></h4> 
+            </div>
+            <!-- Navigation Buttons -->
+            <div class="mt-4">
+                <button class="btn btn-primary btn-block btn-custom" onclick="showForm('doctorDetail')">Doctor Detail</button>
+                <button class="btn btn-primary btn-block btn-custom" onclick="showForm('doctorAvailable')">Doctor Available</button>
+                <button class="btn btn-primary btn-block btn-custom" onclick="showForm('doctorNotAvailable')">Doctor Not Available</button>
+                <button class="btn btn-primary btn-block btn-custom" onclick="showForm('doctorSchedule')">Doctor Schedule</button>
+                <button class="btn btn-primary btn-block btn-custom" onclick="showForm('doctorRecords')">Doctor Records</button>
+                <!-- Logout Button -->
+                <a class="btn btn-danger btn-block btn-custom mt-4" th:href="@{/Logout}">Logout</a>
+                <!-- <button class="btn btn-danger btn-block btn-custom mt-4" onclick="window.location.href='/logout'">Logout</button> -->
+            </div>
+        </div>
+		
+        <!-- Content Area -->
+        <div class="col-md-9 content-area">
+            <div id="content-area">
+                <!-- Doctor Detail Form -->
+                <div id="doctorDetail" class="form-section" style="display: none;">
+                    <h2>Doctor Detail</h2>
+                    <form method="post" th:action="@{/doctor/updateDoctor}" >
+                        <!-- Doctor Name (displayed by default with Thymeleaf) -->
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" th:value="${session.doctor.name}" class="form-control" id="phone" name="name" placeholder="Enter name" required>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="text" th:value="${session.doctor.phone}" class="form-control" id="phone" name="phone" placeholder="Enter phone number" required>
+                        </div>
+                
+                        <!-- Date of Birth -->
+                        <div class="form-group">
+                            <label for="dob">Date of Birth:</label>
+                            <input type="date" th:value="${session.doctor.dob}" class="form-control" id="dob" name="dob" required>
+                        </div>
+                
+                        <!-- Speciality -->
+                        <div class="form-group">
+                            <label for="speciality">Speciality:</label>
+                            <input type="text" th:value="${session.doctor.speciality}" class="form-control" id="speciality" name="speciality" placeholder="Enter speciality" required>
+                        </div>
+                
+                        <!-- Qualification -->
+                        <div class="form-group">
+                            <label for="qualification">Qualification:</label>
+                            <input type="text" th:value="${session.doctor.qualification}" class="form-control" id="qualification" name="qualification" placeholder="Enter qualification" required>
+                        </div>
+                
+                        <!-- Experience -->
+                        <div class="form-group">
+                            <label for="experience">Experience (years):</label>
+                            <input type="number" th:value="${session.doctor.experience}" class="form-control" id="experience" name="experience" min="0" placeholder="Enter years of experience" required>
+                        </div>
+                
+                        <!-- Gender -->
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <select class="form-control" id="gender" name="gender" required>
+                                <option  th:value="${session.doctor.gender}"><span th:text="${session.doctor.gender}"></span></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                
+                        <!-- State -->
+                        <div class="form-group">
+                            <label for="state">State:</label>
+                            <input type="text"  th:value="${session.doctor.state}" class="form-control" id="state" name="state" placeholder="Enter state" required>
+                        </div>
+                
+                        <!-- City -->
+                        <div class="form-group">
+                            <label for="city">City:</label>
+                            <input type="text"  th:value="${session.doctor.city}" class="form-control" id="city" name="city" placeholder="Enter city" required>
+                        </div>
+                
+                        <!-- Area -->
+                        <div class="form-group">
+                            <label for="area">Area:</label>
+                            <input type="text"  th:value="${session.doctor.area}" class="form-control" id="area" name="area" placeholder="Enter area" required>
+                        </div>
+                		<input type="hidden" name="email" th:value="${session.doctor.email}"/>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-block">Save Details</button>
+                    </form>
+                </div>
+
+                <!-- Doctor Available Form -->
+                <div id="doctorAvailable" class="form-section" style="display: none;">
+                    <h5>Doctor Availability</h5>
+                    <form th:action="@{/doctor/updateDocAvail}" method="post" >
+                        <!-- Monday Availability -->
+                        <div class="form-group">
+                            <label for="mon_mor">Monday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.mon_mor}" class="form-control" id="mon_mor" name="mon_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="mon_eve">Monday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.mon_eve}" class="form-control" id="mon_eve" name="mon_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Tuesday Availability -->
+                        <div class="form-group">
+                            <label for="tue_mor">Tuesday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.tue_mor}" class="form-control" id="tue_mor" name="tue_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="tue_eve">Tuesday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.tue_eve}" class="form-control" id="tue_eve" name="tue_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Wednesday Availability -->
+                        <div class="form-group">
+                            <label for="wed_mor">Wednesday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.wed_mor}" class="form-control" id="wed_mor" name="wed_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="wed_eve">Wednesday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.wed_eve}" class="form-control" id="wed_eve" name="wed_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Thursday Availability -->
+                        <div class="form-group">
+                            <label for="thu_mor">Thursday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.thu_mor}" class="form-control" id="thu_mor" name="thu_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="thu_eve">Thursday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.thu_eve}" class="form-control" id="thu_eve" name="thu_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Friday Availability -->
+                        <div class="form-group">
+                            <label for="fri_mor">Friday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.fri_mor}" class="form-control" id="fri_mor" name="fri_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="fri_eve">Friday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.fri_eve}" class="form-control" id="fri_eve" name="fri_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Saturday Availability -->
+                        <div class="form-group">
+                            <label for="sat_mor">Saturday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.sat_mor}" class="form-control" id="sat_mor" name="sat_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="sat_eve">Saturday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.sat_eve}" class="form-control" id="sat_eve" name="sat_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Sunday Availability -->
+                        <div class="form-group">
+                            <label for="sun_mor">Sunday Morning:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.sun_mor}" class="form-control" id="sun_mor" name="sun_mor" placeholder="eg: 9:30am-12:30pm" >
+                        </div>
+                        <div class="form-group">
+                            <label for="sun_eve">Sunday Evening:</label>
+                            <input type="text" th:value="${session.doctor.doctorAvail.sun_eve}" class="form-control" id="sun_eve" name="sun_eve" placeholder="eg: 6:30pm-9:30pm" >
+                        </div>
+                
+                        <!-- Maximum Appointments -->
+                        <div class="form-group">
+                            <label for="max_mor_apmt">Max Morning Appointments:</label>
+                            <input type="number" th:value="${session.doctor.doctorAvail.max_mor_apmt}" class="form-control" id="max_mor_apmt" name="max_mor_apmt" min="0" placeholder="Enter max morning appointments" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="max_eve_apmt">Max Evening Appointments:</label>
+                            <input type="number" th:value="${session.doctor.doctorAvail.max_eve_apmt}" class="form-control" id="max_eve_apmt" name="max_eve_apmt" min="0" placeholder="Enter max evening appointments" required>
+                        </div>
+                
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-block">Save Availability</button>
+                    </form>
+                </div>
+
+                <!-- Doctor Not Available Form -->
+                <div id="doctorNotAvailable" class="form-section" style="display: none;">
+                    <h5>Doctor Not Available</h5>
+                    <form method="post" th:action="@{/doctor/addDocNotAvail}" >
+                        <div class="form-group">
+                            <label for="doc_date">Date:</label>
+                            <input type="date" name="doc_date" class="form-control" id="doc_date">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    </form>
+                </div>
+
+                <!-- Doctor Schedule Form -->
+                <div id="doctorSchedule" class="form-section" style="display: none;">
+                    <h5>Doctor Schedule</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="scheduleDate">Date:</label>
+                            <input type="date" class="form-control" id="scheduleDate">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Doctor Records Form -->
+                <div id="doctorRecords" class="form-section" style="display: none;">
+                    <h5>Doctor Records</h5>
+                    <form>
+                        <div class="form-group">
+                            <label for="recordId">Record ID:</label>
+                            <input type="text" class="form-control" id="recordId">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function showForm(formId) {
+        document.querySelectorAll('.form-section').forEach(section => section.style.display = 'none');
+        document.getElementById(formId).style.display = 'block';
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

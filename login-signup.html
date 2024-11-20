@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Registration</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .form-container {
+      padding: 25px;
+      border-radius: 5px 20px ;
+      box-shadow: 0 18px 16px hsla(188, 78%, 41%, 0.702) ;
+      width: 1000%;
+      max-width: 400px;
+    }
+    .register-link {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .register-link a {
+      margin: 0 10px;
+      cursor: pointer;
+    }
+    .clickable {
+      color: #007bff;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+    <nav>
+        <nav class="navbar navbar-light bg-info">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                <B>Doctor</B>
+              </a>
+                 <a class="navbar-brand ml-auto text-white" href="#">
+              </a>
+              <a href="index" class="btn btn-dark bn ml-auto mr-4">Home</a>
+              <form class="form-inline">
+                <input class="form-control m-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success bg-success text-white my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>   
+          <nav class="navbar navbar-light ">
+          </nav>      
+    </nav>
+    <div class="d-flex justify-content-center pt-2 pb-5">
+        <h2>Login / Register</h2>
+    </div>
+    <div class="container d-flex justify-content-center pt-3" id="form">
+        <div class="row gx-5">
+          <div class="col">
+           <div class="p-3 mx-auto " >
+            <img src="images/Apontment.png"  style="max-width: 310px;" class="img-fluid rounded-start" alt="...">
+           </div>
+          </div>
+          <div class="col">
+            <div class="p-3">
+                <div class="form-container opacity-50">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                    </li>
+                    </ul>
+                        
+                    <!-- Tab panes -->
+                    <div class="tab-content mt-4">
+                    <!-- Login Form -->
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <h4 class="text-center mb-4">Login</h4>
+                        <span style='color:red;' th:text="${msg}"></span>
+                        <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" name='email' class="form-control" id="login-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" name="password" class="form-control" id="login-password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </form>
+                    </div>
+    
+                    <!-- Register Form -->
+                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                       
+                        <!-- User Registration Form (Default) -->
+                        <form id="register-user-form" action="/user/register" method="post">
+                        <div class="form-group">
+                            <label for="register-user-name">Name</label>
+                            <input type="text" name="name" class="form-control" id="register-user-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-user-email">Email</label>
+                            <input type="email" name="email" class="form-control" id="register-user-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-user-password">Password</label>
+                            <input type="password" name="password" class="form-control" id="register-user-password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Register as User</button>
+                        </form>
+    
+                        <!-- Doctor Registration Form (Initially Hidden) -->
+                        <form id="register-doctor-form" action="/doctor/register" method="post" style="display: none;">
+                        <div class="form-group">
+                            <label for="register-doctor-name">Name</label>
+                            <input type="text" name="name" class="form-control" id="register-doctor-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-doctor-email">Email</label>
+                            <input type="email" name="email" class="form-control" id="register-doctor-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-doctor-password">Password</label>
+                            <input type="password" name="password" class="form-control" id="register-doctor-password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Register as Doctor</button>
+                        </form>
+    
+                        <!-- Link to switch between User and Doctor Registration -->
+                        <div class="register-link mt-3" id="toggle-link" style="display: none;">
+                        <span class="text-secondary clickable" id="switch-text" onclick="toggleRegistration()"></span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Show the correct form based on the clicked link
+  function showForm(type) {
+    const userForm = document.getElementById('register-user-form');
+    const doctorForm = document.getElementById('register-doctor-form');
+    const toggleLink = document.getElementById('toggle-link');
+    const switchText = document.getElementById('switch-text');
+
+    if (type === 'user') {
+      userForm.style.display = 'block';
+      doctorForm.style.display = 'none';
+      toggleLink.style.display = 'block';
+      switchText.textContent = 'Want to register as a Doctor? Click here.';
+    } else {
+      doctorForm.style.display = 'block';
+      userForm.style.display = 'none';
+      toggleLink.style.display = 'block';
+      switchText.textContent = 'Want to register as a User? Click here.';
+    }
+  }
+
+  function toggleRegistration() {
+    const currentForm = document.getElementById('register-user-form').style.display === 'block' ? 'user' : 'doctor';
+    showForm(currentForm === 'user' ? 'doctor' : 'user');
+  }
+  // Show the user registration form by default
+  document.addEventListener('DOMContentLoaded', () => {
+    showForm('user');
+  });
+</script>
+
+</body>
+</html>
